@@ -60,11 +60,27 @@
     </ul>
 </nav>
 <main class="main">
-    <section id="entries" class="empty">
-        <img alt="Journal with pen illustration" src="/img/journal-with-pen.svg" />
-        <h2>Entries will appear here</h2>
-        <p>When you add some journal entries for your productive day, they are going to be seen here. Go create some!</p>
-        <button><i class="fas fa-plus"></i> Create</button>
+    <section class="card">
+        <h2 id="date"></h2>
+        <form>
+            <div class="form-group">
+                <label for="dateInput">What did I do yesterday?</label>
+                <input type="date" id="dateInput" name="date" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="yesterday">What did I do yesterday?</label>
+                <textarea id="yesterdayInput" name="yesterday"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="today">What will I do today??</label>
+                <textarea id="todayInput" name="yesterday"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="today">Are there any blockers?</label>
+                <textarea id="blockersInput" name="blockers"></textarea>
+            </div>
+            <button id="new" class="right" type="submit">Done</button>
+        </form>
     </section>
 </main>
 <footer class="footer">
@@ -74,5 +90,23 @@
 </footer>
 
 <script src="js/main.js"></script>
+
+<script type="application/javascript">
+    Date.prototype.toDateInputValue = (function() {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0,10);
+    });
+
+    document.getElementById('dateInput').value = new Date().toDateInputValue();
+    document.getElementById('date').innerHTML = new Date().toDateString();
+
+    document.getElementById('dateInput').addEventListener('change', (e)=>{
+        document.getElementById('date').innerHTML = new Date(e.target.value).toDateString();
+    })
+
+
+
+</script>
 </body>
 </html>

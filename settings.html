@@ -18,20 +18,6 @@
     <meta name="theme-color" content="#fafafa">
 </head>
 <body>
-
-<svg class="hide" style="position: fixed; z-index: 1000;" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <pattern id="smallGrid" width="16" height="16" patternUnits="userSpaceOnUse">
-            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="gray" stroke-width="0.5"/>
-        </pattern>
-        <pattern id="grid" width="160" height="160" patternUnits="userSpaceOnUse">
-            <rect width="160" height="160" fill="url(#smallGrid)"/>
-            <path d="M 160 0 L 0 0 0 160" fill="none" stroke="gray" stroke-width="1"/>
-        </pattern>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#grid)"/>
-</svg>
-
 <header class="header">
     <div class="row">
         <div class="logo">
@@ -60,11 +46,27 @@
     </ul>
 </nav>
 <main class="main">
-    <section id="entries" class="empty">
-        <img alt="Journal with pen illustration" src="/img/journal-with-pen.svg" />
-        <h2>Entries will appear here</h2>
-        <p>When you add some journal entries for your productive day, they are going to be seen here. Go create some!</p>
-        <button><i class="fas fa-plus"></i> Create</button>
+    <section class="card">
+        <h2>Settings</h2>
+        <form>
+            <div class="form-group">
+                <label for="usernameInput">Username</label>
+                <input type="text" id="usernameInput" name="username" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="emailInput">Email</label>
+                <input type="email" id="emailInput" name="email" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="passwordInput">Password</label>
+                <input type="password" id="passwordInput" name="password" value=""/>
+            </div>
+            <div class="form-group">
+                <label for="passwordCheckInput">Password Check</label>
+                <input type="password" id="passwordCheckInput" name="passwordChech" value=""/>
+            </div>
+            <button id="settingsButton" class="right" type="submit">Done</button>
+        </form>
     </section>
 </main>
 <footer class="footer">

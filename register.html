@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Me</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+    <script src="https://kit.fontawesome.com/1f156d2752.js" crossorigin="anonymous"></script>
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+<body>
+<main class="main">
+    <section class="card register">
+        <form>
+
+            <div class="form-group">
+                <label for="usernameInput">Username</label>
+                <input type="text" id="usernameInput" name="username" placeholder="Enter a username"/>
+            </div>
+            <div class="form-group">
+                <label for="emailInput">Email</label>
+                <input type="text" id="emailInput" name="email" placeholder="Enter email"/>
+            </div>
+            <div class="form-group">
+                <label for="passwordInput">Password</label>
+                <input id="passwordInput" type="password" name="password" placeholder="Enter password"/>
+            </div>
+            <div class="form-group">
+                <label for="passwordCheckInput">Repeat Password</label>
+                <input id="passwordCheckInput" type="password" name="passwordCheck" placeholder="Repeat password"/>
+            </div>
+            <button id="registerButton">Create</button>
+            <p class="message">Already registered? <a href="login.html">Sign In</a></p>
+        </form>
+    </section>
+</main>
+<script src="js/main.js"></script>
+</body>
+</html>
