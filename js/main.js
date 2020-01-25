@@ -1,4 +1,4 @@
-let cookie = JSON.parse(document.cookie);
+let cookie = JSON.parse(document.cookie ?? '');
 
 
 class App {
