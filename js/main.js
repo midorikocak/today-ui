@@ -174,27 +174,27 @@ class App {
     }
 
     async index() {
-        this.list('http://today-api.test/entries')
+        this.list('https://api.mtkocak.net/entries')
     }
 
     async today() {
-        this.list('http://today-api.test/today')
+        this.list('http://api.mtkocak.net/today')
     }
 
     async yesterday() {
-        this.list('http://today-api.test/yesterday')
+        this.list('https://api.mtkocak.net/yesterday')
     }
 
     async week() {
-        this.list('http://today-api.test/week')
+        this.list('https://api.mtkocak.net/week')
     }
 
     async month() {
-        this.list('http://today-api.test/month')
+        this.list('https://api.mtkocak.net/month')
     }
 
     async search(term) {
-        this.list('http://today-api.test/search/' + term);
+        this.list('https://api.mtkocak.net/search/' + term);
     }
 
     formatDate(date) {
@@ -214,7 +214,7 @@ class App {
 
     async view(id) {
 
-        let uri = 'http://today-api.test/entries/' + id;
+        let uri = 'https://api.mtkocak.net/entries/' + id;
         try {
             let entry = await this.request('GET', uri, null, this.auth);
 
@@ -246,7 +246,7 @@ class App {
 
     async edit(id) {
 
-        let uri = 'http://today-api.test/entries/' + id;
+        let uri = 'https://api.mtkocak.net/entries/' + id;
         try {
             let entry = await this.request('GET', uri, null, this.auth);
 
@@ -285,7 +285,7 @@ class App {
 
     async settings() {
 
-        let uri = 'http://today-api.test/settings/';
+        let uri = 'https://api.mtkocak.net/settings/';
         try {
             let settings = await this.request('GET', uri, null, this.auth);
 
@@ -353,7 +353,7 @@ class App {
     }
 
     async delete(id) {
-        let uri = 'http://today-api.test/entries/' + id;
+        let uri = 'https://api.mtkocak.net/entries/' + id;
         try {
             if (confirm('Are you sure?')) {
                 let entry = await this.request('DELETE', uri, null, this.auth);
@@ -373,7 +373,7 @@ class App {
                 let data = {email: email, password: password};
 
                 try {
-                    this.auth = await this.request('POST', 'http://today-api.test/login', data);
+                    this.auth = await this.request('POST', 'https://api.mtkocak.net/login', data);
                     this.redirect('/index.html');
                 } catch (err) {
                     alert(`Error: ${err.message}`)
@@ -384,7 +384,7 @@ class App {
 
     register() {
 
-        let uri = 'http://today-api.test/register/';
+        let uri = 'https://api.mtkocak.net/register/';
         try {
             let usernameInput = document.getElementById('usernameInput');
             let passwordInput = document.getElementById('passwordInput');
@@ -427,7 +427,7 @@ class App {
                 let data = {today: today, yesterday: yesterday, blocker: blocker};
 
                 try {
-                    const entry = await this.request('POST', 'http://today-api.test/entries', data, this.auth)
+                    const entry = await this.request('POST', 'https://api.mtkocak.net/entries', data, this.auth)
                     this.redirect('/index.html');
                 } catch (err) {
                     alert(`Error: ${err.message}`)
