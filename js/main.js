@@ -1,5 +1,4 @@
-let cookie = JSON.parse(document.cookie ?? '');
-
+import {config} from "./config.js";
 
 class App {
 
@@ -8,9 +7,12 @@ class App {
         // If not logged redirect to login Page
         // If in login page, stop redirection
 
+        this.apiUrl = config.api.url;
+
         this.router();
 
-        if (this.auth === '' && window.location.pathname !=='/register.html') {
+
+        if (this.auth === '' && window.location.pathname !== '/register.html') {
             this.redirect('/login.html')
         } else {
             this.logged();
@@ -23,15 +25,44 @@ class App {
         });
     }
 
+    setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    eraseCookie(name) {
+        document.cookie = name + '=; Max-Age=-99999999;';
+    }
+
     // getters and setters
 
     get auth() {
-        let authData = JSON.parse(document.cookie);
-        return authData.Authorization;
+        let authCookie = this.getCookie('auth');
+        if (authCookie) {
+            let authData = JSON.parse(authCookie);
+            return authData.Authorization;
+        }
+        return '';
     }
 
     set auth(token) {
-        document.cookie = JSON.stringify({Authorization: token});
+        this.setCookie('auth', JSON.stringify({Authorization: token}), 1);
     }
 
 
@@ -174,7 +205,7 @@ class App {
     }
 
     async index() {
-        this.list('https://api.mtkocak.net/entries')
+        this.list(this.apiUrl + '/entries')
     }
 
     async today() {
@@ -182,19 +213,19 @@ class App {
     }
 
     async yesterday() {
-        this.list('https://api.mtkocak.net/yesterday')
+        this.list(this.apiUrl + '/yesterday')
     }
 
     async week() {
-        this.list('https://api.mtkocak.net/week')
+        this.list(this.apiUrl + '/week')
     }
 
     async month() {
-        this.list('https://api.mtkocak.net/month')
+        this.list(this.apiUrl + '/month')
     }
 
     async search(term) {
-        this.list('https://api.mtkocak.net/search/' + term);
+        this.list(this.apiUrl + '/search/' + term);
     }
 
     formatDate(date) {
@@ -214,7 +245,7 @@ class App {
 
     async view(id) {
 
-        let uri = 'https://api.mtkocak.net/entries/' + id;
+        let uri = this.apiUrl + '/entries/' + id;
         try {
             let entry = await this.request('GET', uri, null, this.auth);
 
@@ -246,7 +277,7 @@ class App {
 
     async edit(id) {
 
-        let uri = 'https://api.mtkocak.net/entries/' + id;
+        let uri = this.apiUrl + '/entries/' + id;
         try {
             let entry = await this.request('GET', uri, null, this.auth);
 
@@ -285,7 +316,7 @@ class App {
 
     async settings() {
 
-        let uri = 'https://api.mtkocak.net/settings/';
+        let uri = this.apiUrl + '/settings/';
         try {
             let settings = await this.request('GET', uri, null, this.auth);
 
@@ -353,7 +384,7 @@ class App {
     }
 
     async delete(id) {
-        let uri = 'https://api.mtkocak.net/entries/' + id;
+        let uri = this.apiUrl + '/entries/' + id;
         try {
             if (confirm('Are you sure?')) {
                 let entry = await this.request('DELETE', uri, null, this.auth);
@@ -373,7 +404,7 @@ class App {
                 let data = {email: email, password: password};
 
                 try {
-                    this.auth = await this.request('POST', 'https://api.mtkocak.net/login', data);
+                    this.auth = await this.request('POST', this.apiUrl + '/login', data);
                     this.redirect('/index.html');
                 } catch (err) {
                     alert(`Error: ${err.message}`)
@@ -384,7 +415,7 @@ class App {
 
     register() {
 
-        let uri = 'https://api.mtkocak.net/register/';
+        let uri = this.apiUrl + '/register/';
         try {
             let usernameInput = document.getElementById('usernameInput');
             let passwordInput = document.getElementById('passwordInput');
@@ -427,7 +458,7 @@ class App {
                 let data = {today: today, yesterday: yesterday, blocker: blocker};
 
                 try {
-                    const entry = await this.request('POST', 'https://api.mtkocak.net/entries', data, this.auth)
+                    const entry = await this.request('POST', this.apiUrl + '/entries', data, this.auth)
                     this.redirect('/index.html');
                 } catch (err) {
                     alert(`Error: ${err.message}`)
