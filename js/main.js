@@ -209,7 +209,7 @@ class App {
     }
 
     async today() {
-        this.list('http://api.mtkocak.net/today')
+        this.list(this.apiUrl + '/today')
     }
 
     async yesterday() {
