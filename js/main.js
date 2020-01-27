@@ -165,13 +165,19 @@ class App {
                 el.classList.remove('empty');
 
                 for (let entry of entries) {
-
                     entry.words =
                         entry.today.split(' ').length +
                         entry.yesterday.split(' ').length +
                         entry.blocker.split(' ').length;
 
-                    fragment.appendChild(this.createEntryListElement(entry))
+                    fragment.appendChild(this.createEntryListElement(
+                        entry.id,
+                        entry.created_at,
+                        entry.words,
+                        entry.yesterday,
+                        entry.today,
+                        entry.blocker
+                        ))
                 }
 
                 el.innerHTML = "";
@@ -351,17 +357,20 @@ class App {
         }
     }
 
-    createEntryListElement({id, created_at, words, yesterday, today, blocker}) {
-        let el = document.createElement('div')
-        let date = new Date(created_at);
+    createEntryListElement(id, created_at, words, yesterday, today, blocker) {
+        let el = document.createElement('div');
+        let dateTimeParts= created_at.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
+        dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
+
+        let date = new Date(...dateTimeParts); // our Date object
         const month = date.toLocaleString('default', {month: 'short'});
-        const day = date.toLocaleDateString('default', {weekday: 'short'});
+        const day = date.toLocaleDateString('default', {weekday: 'long'});
 
         el.className = 'day card'
         el.innerHTML = `
                 <div class="day-info">
-                    <a href="/view.html?id=${id}"><h1>${day} ${date.getDate()}</h1></a>
-
+                    <a href="/view.html?id=${id}"><h1> ${date.getDate()}   ${month}  ${date.getFullYear()} </h1></a>
+                    <h2>${day}</h2>
                     <p class="badges">
                         <a href="#" class="badge">${words} words</a>
                     </p>
