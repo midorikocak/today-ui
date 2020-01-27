@@ -261,6 +261,8 @@ class App {
             let date = document.getElementById('date');
             let words = document.getElementById('wordsBadge');
 
+            let dateValue = this.getDayFromMysqlString(entry.createdAt)
+
             entry.words =
                 entry.today.split(' ').length +
                 entry.yesterday.split(' ').length +
@@ -269,12 +271,11 @@ class App {
             today.innerHTML = entry.today;
             yesterday.innerHTML = entry.yesterday;
             blocker.innerHTML = entry.blocker;
-            date.innerHTML = new Date(entry.createdAt).toDateInputValue();
             words.innerHTML = entry.words + ' words';
 
             date.dateTime = entry.createdAt;
 
-            date.innerHTML = this.formatDate(new Date(entry.createdAt));
+            date.innerHTML = this.formatDate(dateValue);
         } catch (err) {
             alert(`Error: ${err.message}`)
         }
@@ -357,12 +358,16 @@ class App {
         }
     }
 
+    getDayFromMysqlString(dateString){
+        let dateTimeParts= dateString.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
+        dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
+        return new Date(...dateTimeParts);
+    }
+
     createEntryListElement(id, created_at, words, yesterday, today, blocker) {
         let el = document.createElement('div');
-        let dateTimeParts= created_at.split(/[- :]/); // regular expression split that creates array with: year, month, day, hour, minutes, seconds values
-        dateTimeParts[1]--; // monthIndex begins with 0 for January and ends with 11 for December so we need to decrement by one
 
-        let date = new Date(...dateTimeParts); // our Date object
+        let date = this.getDayFromMysqlString(created_at)
         const month = date.toLocaleString('default', {month: 'short'});
         const day = date.toLocaleDateString('default', {weekday: 'long'});
 
