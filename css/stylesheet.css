@@ -121,7 +121,7 @@ body {
 
 
 .sidebar {
-    padding: 2rem 0;
+    padding: 1rem 0;
     display: flex;
     grid-area: nav;
     border-right: 1px solid var(--border-color);
@@ -148,7 +148,7 @@ body {
     grid-gap: 1rem;
     grid-area: main;
     overflow-y: scroll;
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 .footer {
